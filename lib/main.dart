@@ -57,7 +57,7 @@ class BienvenidaScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  'Welcome to your personal space for thoughts and stories.',
+                  'Bienvendo a un espacio de blogs y tu diario personal.',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white70, fontSize: 16),
                 ),
@@ -78,7 +78,7 @@ class BienvenidaScreen extends StatelessWidget {
                     );
                   },
                   icon: const Icon(Icons.arrow_forward_ios),
-                  label: const Text('Get Started'),
+                  label: const Text('Iniciar'),
                 ),
               ],
             ),

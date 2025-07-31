@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'services/firestore_service.dart';
+import '../services/firestore_service.dart';
 
 class PaginaPrincipal extends StatefulWidget {
   const PaginaPrincipal({super.key});
@@ -151,7 +151,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> with SingleTickerProv
         return ListView.separated(
           padding: const EdgeInsets.all(12),
           itemCount: docs.length,
-          separatorBuilder: (_, __) => const Divider(color: Colors.black26),
+          separatorBuilder: (_, __) => const Divider(color: Color.fromARGB(255, 0, 0, 0)),
           itemBuilder: (context, i) {
             final doc = docs[i];
             final data = doc.data();

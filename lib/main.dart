@@ -56,6 +56,15 @@ class BienvenidaScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
+                Image.network(
+                  'https://images.unsplash.com/photo-1752643719497-b91314d6d253?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  height: 200,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(Icons.broken_image, size: 100, color: Colors.white70);
+                  },
+                ),
+                const SizedBox(height: 20),
                 const Text(
                   'Bienvendo a un espacio de blogs y tu diario personal.',
                   textAlign: TextAlign.center,

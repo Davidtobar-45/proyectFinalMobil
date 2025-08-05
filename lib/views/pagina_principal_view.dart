@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../services/firestore_service.dart';
+import 'nota_form_view.dart';
 
-class PaginaPrincipal extends StatefulWidget {
-  const PaginaPrincipal({super.key});
+class PaginaPrincipalView extends StatefulWidget {
+  const PaginaPrincipalView({super.key});
 
   @override
-  State<PaginaPrincipal> createState() => _PaginaPrincipalState();
+  State<PaginaPrincipalView> createState() => _PaginaPrincipalViewState();
 }
 
-class _PaginaPrincipalState extends State<PaginaPrincipal> with SingleTickerProviderStateMixin {
+class _PaginaPrincipalViewState extends State<PaginaPrincipalView> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -26,48 +27,14 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> with SingleTickerProv
 
   String get _coleccionActual => _tabController.index == 0 ? 'blog' : 'diario';
 
-  void _mostrarDialogo({String? id, String? tituloInit, String? contenidoInit}) {
-    final tituloCtrl = TextEditingController(text: tituloInit);
-    final contenidoCtrl = TextEditingController(text: contenidoInit);
-
+  void _mostrarDialogoNota({String? id, String? titulo, String? contenido}) {
     showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        title: Text(id == null ? 'Agregar Nota' : 'Editar Nota'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(controller: tituloCtrl, decoration: const InputDecoration(labelText: 'Título')),
-            TextField(controller: contenidoCtrl, decoration: const InputDecoration(labelText: 'Contenido')),
-          ],
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancelar')),
-          ElevatedButton(
-            onPressed: () async {
-              final t = tituloCtrl.text.trim();
-              final c = contenidoCtrl.text.trim();
-              if (t.isEmpty || c.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Completa todos los campos')));
-                return;
-              }
-              try {
-                if (id == null) {
-                  await FirestoreService().agregarNota(_coleccionActual, t, c);
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Nota guardada')));
-                } else {
-                  await FirestoreService().actualizarNota(_coleccionActual, id, t, c);
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Nota actualizada')));
-                }
-                Navigator.pop(context);
-              } catch (e) {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
-              }
-            },
-            child: Text(id == null ? 'Guardar' : 'Actualizar'),
-          ),
-        ],
+      builder: (_) => NotaFormView(
+        coleccion: _coleccionActual,
+        id: id,
+        tituloInicial: titulo,
+        contenidoInicial: contenido,
       ),
     );
   }
@@ -125,7 +92,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> with SingleTickerProv
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _mostrarDialogo(),
+        onPressed: () => _mostrarDialogoNota(),
         backgroundColor: Colors.blue[900],
         child: const Icon(Icons.add, color: Colors.white),
       ),
@@ -166,7 +133,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> with SingleTickerProv
                 children: [
                   IconButton(
                     icon: const Icon(Icons.edit, color: Color.fromARGB(255, 5, 182, 35), size: 20),
-                    onPressed: () => _mostrarDialogo(id: doc.id, tituloInit: title, contenidoInit: content),
+                    onPressed: () => _mostrarDialogoNota(id: doc.id, titulo: title, contenido: content),
                     tooltip: 'Editar',
                   ),
                   IconButton(

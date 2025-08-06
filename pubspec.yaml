@@ -10,10 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.8
   firebase_core: ^2.25.4
   cloud_firestore: ^4.15.4
+  intl: ^0.18.1
+  url_launcher: ^6.1.10    # <-- Agregado para abrir links
 
 dev_dependencies:
   flutter_test:

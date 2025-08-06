@@ -2,27 +2,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final String _coleccion = 'notas';
 
-  CollectionReference<Map<String, dynamic>> _getCollection(String tipo) {
-    return _db.collection(tipo); // 'blog' o 'diario'
-  }
-
-  Future<void> agregarNota(String tipo, String titulo, String contenido) {
-    return _getCollection(tipo).add({'titulo': titulo, 'contenido': contenido});
-  }
-
-  Stream<QuerySnapshot<Map<String, dynamic>>> leerNotas(String tipo) {
-    return _getCollection(tipo).orderBy('titulo', descending: true).snapshots();
-  }
-
-  Future<void> actualizarNota(String tipo, String docId, String titulo, String contenido) {
-    return _getCollection(tipo).doc(docId).update({
-      'titulo': titulo,
+  Future<void> agregarNota(String tipo, String contenido, DateTime fecha) async {
+    await _db.collection(_coleccion).add({
       'contenido': contenido,
+      'tipo': tipo,
+      'fecha': fecha.toIso8601String(),
     });
   }
 
-  Future<void> eliminarNota(String tipo, String id) {
-    return _getCollection(tipo).doc(id).delete();
+  Future<void> actualizarNota(String id, String contenido, String tipo) async {
+    await _db.collection(_coleccion).doc(id).update({
+      'contenido': contenido,
+      'tipo': tipo,
+    });
+  }
+
+  Future<void> eliminarNota(String id) async {
+    await _db.collection(_coleccion).doc(id).delete();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> leerNotas() {
+    return _db.collection(_coleccion).orderBy('fecha', descending: true).snapshots();
   }
 }

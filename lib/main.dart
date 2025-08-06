@@ -5,83 +5,53 @@ import 'views/pagina_principal.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const BlueDraftApp());
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: Bienvenida(),
+  ));
 }
 
-class BlueDraftApp extends StatelessWidget {
-  const BlueDraftApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'BlueDraft',
-      debugShowCheckedModeBanner: false,
-      home: const BienvenidaScreen(),
-    );
-  }
-}
-
-class BienvenidaScreen extends StatelessWidget {
-  const BienvenidaScreen({super.key});
+class Bienvenida extends StatelessWidget {
+  const Bienvenida({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF2196F3), Colors.black],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.edit_note_rounded, size: 80, color: Colors.white),
-                const SizedBox(height: 20),
-                const Text(
-                  'BlueDraft',
-                  style: TextStyle(
-                    fontSize: 38,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 1.2,
-                  ),
+      backgroundColor: Colors.blue[900],
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.edit_note_rounded, size: 120, color: Colors.white),
+              const SizedBox(height: 20),
+              const Text(
+                'BlueDraft',
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
-                const SizedBox(height: 20),
-                const Text(
-                  'Bienvenido a tu espacio personal para blogs y diario.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white70, fontSize: 16),
-                ),
-                const SizedBox(height: 40),
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.blueAccent,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (_) => const PaginaPrincipal()),
-                    );
-                  },
-                  icon: const Icon(Icons.arrow_forward_ios),
-                  label: const Text('Iniciar'),
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Bienvenido a tu espacio personal para blogs y diario.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white70),
+              ),
+              const SizedBox(height: 40),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => const PaginaPrincipal()),
+                  );
+                },
+                child: const Text('Iniciar'),
+              ),
+            ],
           ),
         ),
       ),
